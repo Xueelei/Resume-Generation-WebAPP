@@ -1,0 +1,343 @@
+<!doctype html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+        {% load staticfiles %}
+        <link href="../static/edit.css" rel="stylesheet" type="text/css">
+        <link href="../static/bio.css" rel="stylesheet" type="text/css">
+        <script src="../static/resume_profile.js" type="text/javascript"></script>
+        <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+        <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="../static/css/util.css">
+   	    <link rel="stylesheet" type="text/css" href="../static/css/main.css">
+
+       
+        
+	<title> ResumeForest </title>
+	</head>
+
+	<body>
+        <nav class="navbar navbar-default">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">ResumeForest</a>
+            </div>
+            
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="{% url 'employee_home' %}" class="glyphicon glyphicon-home"> Home</a></li>
+                <li class="active"><a href="{% url 'info_collect' %}" class="glyphicon glyphicon-list-alt"> NewResume</a></li>      
+            </ul>
+            
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" class="glyphicon glyphicon-user"> {{user.username}}</a></li>
+                <li><a href="{% url 'logout' %}" class="glyphicon glyphicon-log-out"> Logout</a></li>
+                &nbsp;&nbsp;
+            </ul>
+            
+        </nav>
+        
+        <div class='contain_gene'>
+                <div class="wrap_gene">
+                
+                        <div class="card">
+                            <div class="card-title">Contact Information</div>
+                                <span class="card-label">Phone Number:</span>
+                                <div class="wrap-input">
+                                    <input class= "card-input" id="id_phone_number" name="phone_number" type="text" value={{phone_number}}>
+                                </div>                                   
+                                
+                                <span class="card-label">Email:</span>
+                                <div class="wrap-input">
+                                    <input class= "card-input" id="id_email" name="email" type="text" value={{email}}>
+                                </div>
+
+                                <div class="container-login100-form-btn">
+                                    <button class="login100-form-btn" id="contact_update_button" onclick="contact_info_update()" type="button">
+                                        Update
+                                    </button>
+                                </div>
+
+                               
+                                
+                                <ul class= "card-input" style="margin:auto" id="contact_update_message"></ul>
+                        </div>
+                    
+
+                        <div class="card">
+                            <span class="card-title">Education &nbsp;<button class="glyphicon glyphicon-plus btn-xs" onclick="add(1)" type="button"></button></span>
+                            
+                                <span id="education_error" class="error" style="color: red;"></span>
+                                    <br>
+                                    {% for education in educations %}
+                                    <div class="wrap-input">
+                                        <span class="card-label-bold">{{education.school_name}}</span>
+                                        <span class="card-label">{{education.education_level}} of {{education.major}}</span>    
+                                        <span class="card-label-light">{{education.start_time}} - {{education.end_time}}</span>
+                                        <button class="glyphicon glyphicon-trash" onclick="del(1, {{education.id}})" type="button"></button>
+                                    </div>
+                                    {% endfor %}
+                                    <br>
+                                    <ul style="margin:auto" id="id_education_add"></ul>       
+                        </div>
+                    
+                        <div class="card">
+                            <span class="card-title">Experience &nbsp;<button class="glyphicon glyphicon-plus btn-xs" onclick="add(2)" type="button"></button></span>
+                                    
+                                    <span id="experience_error" class="error" style="color: red;"></span>
+                                    <br>
+                                    {% for experience in experiences %}
+                                    <div class="wrap-input">
+                                        <span class="card-label-bold">{{experience.job_title}} ({{experience.job_type}})</span>
+                                        <span class="card-label">{{experience.company_name}} ({{experience.company_address}})</span>    
+                                        <span class="card-label-light">{{experience.start_time}} - {{experience.end_time}}</span>
+                                        {% for detail in experience.details.all %}
+                                        <li class="card-label">- {{detail.text}}</li>
+                                        {% endfor %}
+                                        <button class="glyphicon glyphicon-trash" onclick="del(2, {{experience.id}})" type="button"></button>
+                                    </div>
+                                        
+                                    {% endfor %}
+                                    <br>
+                                    <ul style="margin:auto" id="id_experience_add"></ul>
+                                    <br>
+                        </div>
+                    
+                        <div class="card">
+                            <span class="card-title">Projects &nbsp;<button class="glyphicon glyphicon-plus btn-xs" onclick="add(3)" type="button"></button></span>
+                                    
+                                    <span id="project_error" class="error" style="color: red;"></span>
+                                    <br>
+                                    {% for project in projects %}
+                                    <div class="wrap-input">
+                                        <span class="card-label-bold">{{project.project_title}}</span>
+                                        <span class="card-label">{{project.organization_name}}</span>    
+                                        <span class="card-label-light">{{project.start_time}} - {{project.end_time}}</span>
+                                        {% for detail in project.details.all %}
+                                            <li class="card-label">- {{detail.text}}</li>
+                                        {% endfor %}
+                                        <button class="glyphicon glyphicon-trash" onclick="del(3, {{project.id}})" type="button"></button>
+                                    </div>
+                                        
+                                    {% endfor %}
+                                    <br>
+                                    <ul style="margin:auto" id="id_project_add"></ul>
+                                    <br>
+                        </div>
+                    
+                        <div class="card">
+                            <span class="card-title">Skills &nbsp;<button class="glyphicon glyphicon-plus btn-xs" onclick="add(4)" type="button"></button></span>
+        
+                                    <span id="skills_error" class="error" style="color: red;"></span>
+                                    <br>
+                                    {% for skill in skills %}
+                                        <li class="card-label">{{skill.text}}
+                                            <button class="glyphicon glyphicon-trash" onclick="del(4, {{skill.id}})" type="button"></button>
+                                        </li>
+                                        <br>
+                                    {% endfor %}
+                                    <br>
+                                    
+                                    <ul style="margin:auto" id="id_skill_add"></ul>
+                                    <br>
+                                </div>
+                        </div>
+                        <div id="dg">
+
+                        <!-- Trigger the modal with a button -->
+                        <div class="container-contact100-form-btn">
+                            <div class="wrap-contact100-form-btn">
+                                <div class="contact100-form-bgbtn"></div>
+                                <button type="button" class="contact100-form-btn" data-toggle="modal" data-target="#myModal">Generate Resume</button>
+                            </div>
+                        </div>
+                        </div>
+
+
+
+            <style>
+                    .forceinline {white-space: nowrap;display:inline;text-align: left;  }
+            </style>
+
+                          <!-- Modal -->
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+                            
+                              <!-- Modal content-->
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  <h4 class="modal-title">Resume Generation</h4>
+                                </div>
+                                <div class="modal-body">
+                                  <form action="{% url 'resume_generate' %}" method="post" class="login100-form validate-form" id="bioForm">
+                            <div class="tab">
+                            
+                            <span class="card-title-g">Select Content</span>
+                            <span class="card-label-g">Educations:</span>
+                            <div class="category">
+                                {% for education in educations %}
+
+                                    <div class="forceinline">
+                                        <input type="checkbox" name="educations" value={{education.id}} style="width:10px;">
+                                        <span>{{education.school_name}}</span>
+                                    </div>
+                                    <br>
+
+
+                                {% endfor %}
+                            </div>
+                            
+                            <span class="card-label-g">Expereices:</span>
+                            <div class="category">
+                                {% for experience in experiences %}
+
+                                    <div class="forceinline">
+                                        <input type="checkbox" name="experiences" value={{experience.id}} style="width:10px;">
+                                        <span>{{experience.job_title}}</span>
+                                    
+                                    </div>
+                                    <br>
+
+                                {% endfor %}
+                            </div>
+
+                            <span class="card-label-g">Projects:</span>
+                            <div class="category">
+                                {% for project in projects %}
+                                    <div class="forceinline">
+                                            <input type="checkbox" name="projects" value={{project.id}} style="width:10px;">
+                                    <span>{{project.project_title}}</span>
+                                    
+
+                                    </div>
+                                    <br>
+
+                                {% endfor %}
+                            </div>
+
+                            <span class="card-label-g">Skills:</span>
+                            <div class="category">
+                                {% for skill in skills %}
+                                    <div class="forceinline">
+                                            <input type="checkbox" name="skills" value={{skill.id}} style="width:10px;">
+                                    <span>{{skill.text}}</span>
+                                    
+                                    </div>
+                                    <br>
+
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="tab">
+                            
+                            <span class="card-title-g">Education Level</span><br>
+                            <select class="card-input-js-g" name="education_level">
+                                {% for education_level in education_level_text %}
+                                    <option value="{{education_level}}">{{education_level}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="tab">
+                            
+                            <span class="card-title-g">Job Type</span><br>
+                                <select class="card-input-js-g" name="job_type">
+                                    {% for job_type in job_type_text %}
+                                        <option value="{{job_type}}">{{job_type}}</option>
+                                    {% endfor %}
+                                </select>
+                        </div>
+                        <div class="tab">
+                            <span class="card-title-g">Ideal Positions</span><br>
+                            <select class="card-input-js-g" multiple name="positions[]">
+                                {% for position in position_text %}
+                                    <option value="{{position}}">{{position}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="tab">
+                            
+                            <span class="card-title-g">Ideal Locations</span><br>
+                            <select class="card-input-js-g" multiple name="locations[]">
+                                {% for location in location_text %}
+                                    <option value="{{location}}">{{location}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="tab">
+                            
+                            <span class="card-title-g">Select Template</span>
+                            <span>(Click to preview!)</span>
+                            <br>
+                            <span id="template_error" class="error" style="color: red;"></span>
+                            <table style="margin:auto">
+                                <tr>
+                                    <td>
+                                        <a data-fancybox="gallery" href="{% static 'img/tem1.jpg' %}">
+                                            <img src="{% static 'img/tem1.jpg' %}" width="100px" height="130px">
+                                        </a>
+                                        <br>
+                                        <input type="checkbox" name="template" value="1">
+                                    </td>
+                                    <td>
+                                        <a data-fancybox="gallery" href="{% static 'img/tem2.jpg' %}">
+                                            <img src="{% static 'img/tem2.jpg' %}" width="100px" height="130px">
+                                        </a>
+                                        <br>
+                                        <input type="checkbox" name="template" value="2">
+                                    </td>
+                                    <td>
+                                        <a data-fancybox="gallery" href="{% static 'img/tem3.jpg' %}">
+                                            <img src="{% static 'img/tem3.jpg' %}" width="100px" height="130px">
+                                        </a>
+                                        <br>
+                                        <input type="checkbox" name="template" value="3">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="info">
+                            <span class="card-title-g">Generating!</span>
+                            <span class="card-title-g">Please wait...</span>
+                        </div>
+                            
+                            <div style="overflow:auto;">
+                                <div style="text-align:center;margin-top: 30px;">
+                                    <button class="btn btn-default" type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                                    <button class="btn btn-default" type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                                </div>
+                            </div>
+
+                            <!-- Circles which indicates the steps of the form: -->
+                            <div style="text-align:center;margin-top:40px;">
+                              <span class="step"></span>
+                              <span class="step"></span>
+                              <span class="step"></span>
+                              <span class="step"></span>
+                              <span class="step"></span>
+                              <span class="step"></span>
+                            </div>
+                            {% csrf_token %}
+                        </form>
+                                </div>
+                              
+                            </div>
+                          </div>
+
+                </div>
+                    
+        </div>
+        <script src="{% static 'bio.js' %}" type="text/javascript"></script>
+</body>
+</html>
+

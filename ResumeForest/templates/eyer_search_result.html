@@ -1,0 +1,97 @@
+{% extends "base_eyer.html" %}
+
+{% block content %}
+    {% load staticfiles %}
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+		<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+		<script src="../static/resume_profile.js" type="text/javascript"></script>
+        <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+        <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="../static/css/util.css">
+   	    <link rel="stylesheet" type="text/css" href="../static/css/main.css">
+
+        <link href="../static/edit.css" rel="stylesheet" type="text/css">
+
+<div class='contain'>
+        <div class="wrap-eyer">
+            <div class="login100-form-title p-b-37">
+                Showing {{ n }} result(s)
+            </div>
+
+        
+        <form method="post" action="{% url 'connect_all' %}">
+
+            {% csrf_token %}
+                <input type="hidden" name="education" value="{{ education }}">
+                <input type="hidden" name="position" value="{{ position }}">
+                <input type="hidden" name="location" value="{{ location }}">
+                <input type="hidden" name="type" value="{{ type }}">
+            <input type="hidden" name="contact" value="{{ contact }}">
+
+            {% for person in results %}
+                <input type="hidden" name="userid_{{ person.user.id }}" value="{{ person.id }}">
+            {% endfor %}
+            <div id="dg">   
+                <div class="container-contact100-form-btn">
+                    <div class="wrap-contact100-form-btn">
+                        <div class="contact100-form-bgbtn"></div>
+                        <button type="button" class="contact100-form-btn">Connect All</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        {% for person in results %}
+
+        <div class="card">
+                <span class="card-title">{{ person.user.first_name}} {{ person.user.last_name }}</span>
+                        
+                        <div class="wrap-input">
+                            <table>
+                                <tr>
+                                    <td width="90%">
+                                        <span class="card-label-bold">{{ person.education_level }}</span>
+                                        <span class="card-label">Seeking {{ position }}</span>    
+                                        <span class="card-label-light">Ideal position: {{ location }}</span>
+                                        <br>
+                                        <a class="glyphicon glyphicon-list-alt" data-fancybox="gallery" href="{% url 'check_resume' person.id %}">
+                                        ViewResume
+                                        </a>       
+                                        
+                                    </td>
+                                    <td width="10%">
+                                        
+                                        <form method="post" action="{% url 'send_interest' person.id %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="education" value="{{ education }}">
+                                            <input type="hidden" name="position" value="{{ position }}">
+                                            <input type="hidden" name="location" value="{{ location }}">
+                                            <input type="hidden" name="type" value="{{ type }}">
+                                            <input type="hidden" name="contact" value="{{ contact }}">
+                                            
+                                            <button class="glyphicon glyphicon-envelope btn-lg"></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+
+                            
+                        </div>
+                            
+            </div>
+
+        {% endfor %}
+
+
+        </div>
+    </div>
+{% endblock %}

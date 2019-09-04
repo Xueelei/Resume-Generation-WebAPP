@@ -1,0 +1,85 @@
+.big-heading {
+    font-size: 200%;
+    font-weight: bold;
+    color:rgb(252, 252, 252);
+    font-weight:600;
+    font-family: sans-serif;
+    text-align: center;
+    padding: 25px 20%;
+    background-color: #e0c1dc;
+    height:30px;
+  }
+
+.all{
+  margin:auto;
+  text-align: center;
+}
+
+.right{
+  text-align: right;
+}
+.button_style{
+  background-color:#d8aed2; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 130px;
+  margin-right: 500px;
+  margin-top: 15px;
+  background-color: #e9dfe8;
+}
+
+li a {
+  text-align: left;
+  font-size: 50%;
+  display: block;
+  color: rgb(148, 90, 133);
+  padding: 4px 9px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #e0c1dc;
+  color: white;
+}
+
+.colorgraph {
+  height: 5px;
+  border-top: 0;
+  background: #c4e17f;
+  border-radius: 5px;
+  background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+}
+
+.instruction{
+    margin-top: 10px;
+    font-size: 150%;
+    font-weight: bold;
+    color:rgb(148, 90, 133);
+    font-weight:600;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.outline{
+    vertical-align: middle;
+    text-align:center;
+}
+
+
+
+

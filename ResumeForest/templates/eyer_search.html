@@ -1,0 +1,34 @@
+{% extends "base_eyer.html" %}
+
+{% block content %}
+    <script>
+        {% if message %}
+    alert('Please pick all choices')
+        {% endif %}
+    </script>
+<div class='contain'>
+    <div class="wrap">
+        <div class="login100-form-title p-b-37">
+             Search Resume That You Are interested...
+        </div>
+    
+        <form method="post" action="{% url 'employer_search_result' %}" class="login100-form validate-form">
+            {% for field in form.visible_fields %}
+            <div class="wrap-input100 validate-input m-b-20">
+                {{field}}
+                <span class="errorlist">{% for error in field.errors %} {{error}} {% endfor %}</span>
+                <span class="focus-input100"></span>
+            </div>
+            {% endfor %}
+            
+            {% csrf_token %}
+    
+            <br>
+            <a href="{% url 'employer_search_result' %}" class="container-login100-form-btn">
+                <button class="login100-form-btn">Match</button>
+            </a>
+    
+        </form>
+    </div>
+</div>
+{% endblock %}

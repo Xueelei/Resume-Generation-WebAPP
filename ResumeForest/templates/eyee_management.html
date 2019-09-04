@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="utf-8">
+	    {% load staticfiles %}
+		
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+		<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+		<script src="../static/resume_profile.js" type="text/javascript"></script>
+        <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+        <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="../static/css/util.css">
+   	    <link rel="stylesheet" type="text/css" href="../static/css/main.css">
+
+        <link href="../static/edit.css" rel="stylesheet" type="text/css">
+		<title> ResumeForest </title>
+	</head>
+
+	<body>
+
+	
+		
+        <nav class="navbar navbar-default">
+        
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">ResumeForest</a>
+			</div>
+	
+			<ul class="nav navbar-nav navbar-left">
+				<li class="active"><a href="{% url 'employee_home' %}" class="glyphicon glyphicon-home"> Home</a></li>
+				<li><a href="{% url 'info_collect' %}" class="glyphicon glyphicon-list-alt"> NewResume</a></li>
+				
+			</ul>
+	
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#" class="glyphicon glyphicon-user"> {{user.username}}</a></li>
+				<li><a href="{% url 'logout' %}" class="glyphicon glyphicon-log-out"> Logout</a></li>
+				&nbsp;&nbsp;
+			</ul>
+	
+		</nav>
+
+		<br>
+		{% if len %}
+		<h2 class="login100-form-title p-b-37">Recent Resumes</h2>
+
+    	<div style="padding-left:20%;">
+    		<table width="800px">
+				{% for bio in bio_list %}
+					<span class="card-label-bold" style="text-align:left;">{{bio.education_level}} ({{bio.job_type}})</span>
+					<div class="card-label-g">Positions: 
+						{% for position in bio.positions.all %}
+							{{position.text}}
+						{% endfor %}
+					</div>
+					
+						<div class="card-label-g">Locations:
+							{% for location in bio.locations.all %}
+								{{location.text}}
+							{% endfor %}
+						</div>
+												
+						
+							<table style="margin-bottom:5%;margin-top: 1%;">
+								{% for resume in bio.resume_list.all %}
+									{% if forloop.counter0|divisibleby:4 %}
+										<tr>
+									{% endif %}
+												
+								<td width="200px">
+									<table>
+										<tr>
+											<a data-fancybox="gallery" href="{% url 'get_jpg' resume.id %}">
+												<img src="{% url 'get_jpg' resume.id %}" width="150px" height="200px">
+											</a>
+											<br>
+						
+											<!-- whether it is a master -->
+											<!-- whether it is a master -->
+									        {% if resume.master %}
+									            <span class="glyphicon glyphicon-star"></span>
+								            {% else %}
+									            <form action="{% url 'set_master' resume.id %}" method="post" id="set_master">
+										        <button class="glyphicon glyphicon-star-empty"></button>
+										    {% csrf_token %}
+									            </form>
+											{% endif %}
+						
+											<!-- download -->
+											<a href="{% url 'get_pdf' resume.id %}" download>
+												<button class="glyphicon glyphicon-download-alt"></button>
+											</a>
+						
+											<!-- delete -->	
+											<form action="{% url 'resume_delete' resume.id %}" method="post" class="login100-form validate-form" id="resume_delete">
+												<button class="glyphicon glyphicon-trash"></button>
+												{% csrf_token %}
+											</form>
+										</tr>
+							
+									</table>
+								</td>
+												
+								{% if forloop.counter|divisibleby:4 %}
+								</tr>
+								{% endif %}
+								{% endfor %}
+							</table>
+
+					{% endfor %}
+				
+
+				
+    		</table>
+    		
+        </div>	
+		    
+		{% else %}
+		<div class="welcome">
+			<h1 class="welcome-title">IMPRESSIVE RESUME</h1>
+			<h2 class="welcome-title-r">EASY ONLINE BUILDER</h2>
+				
+		</div>
+		<div class="container-contact100-form-btn-w">
+			<div class="wrap-contact100-form-btn-w">
+				<div class="contact100-form-bgbtn-w"></div>
+				<a class="contact100-form-btn-w" href="{% url 'info_collect' %}">Build My Resume</a>
+			</div>
+		</div>
+		
+		{% endif %}
+
+		
+	</body>
+</html>

@@ -1,0 +1,23 @@
+{% autoescape off %}
+    Hi {{ user.first_name }},
+
+    This is {{ myname }} from {{ company }},
+
+    We found your resume on ResumeForest, and would like to learn more about you!
+
+    {{ message }}
+
+    {% if email %}
+
+    For more information, you can contact me at {{ myemail }}.
+
+    {% endif %}
+
+
+    Best,
+    {{ myname }}
+    {{ education }}
+    {{ position }}
+
+
+{% endautoescape %}
